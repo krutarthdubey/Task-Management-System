@@ -1,0 +1,2 @@
+import { Body,Controller,Get,Patch,UseGuards } from '@nestjs/common'; import { AuthGuard } from '../common/auth.guard'; import { CurrentUser } from '../common/auth.decorator'; import { UsersService } from './users.service';
+@Controller('users') @UseGuards(AuthGuard) export class UsersController {constructor(private s:UsersService){} @Get('me') me(@CurrentUser() u:any){return this.s.find(u.sub)} @Patch('me') update(@CurrentUser() u:any,@Body() d:any){return this.s.update(u.sub,d)} }

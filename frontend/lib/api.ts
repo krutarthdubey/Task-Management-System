@@ -1,0 +1,3 @@
+const API=process.env.NEXT_PUBLIC_API_URL||'http://localhost:5000/api';
+export async function api<T=any>(path:string,opts:RequestInit={}){const token=typeof window!=='undefined'?localStorage.getItem('token'):null;const res=await fetch(`${API}${path}`,{...opts,headers:{'Content-Type':'application/json',...(token?{Authorization:`Bearer ${token}`}:{}) ,...(opts.headers||{})}});if(!res.ok){const e=await res.json().catch(()=>({message:'Request failed'}));throw new Error(e.message||'Request failed')}return res.json() as Promise<T>}
+export const auth={login:(d:any)=>api('/auth/login',{method:'POST',body:JSON.stringify(d)}),register:(d:any)=>api('/auth/register',{method:'POST',body:JSON.stringify(d)}),guest:()=>api('/auth/guest',{method:'POST'})};
