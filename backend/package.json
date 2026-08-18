@@ -1,2 +1,32 @@
 {
-  "name":"ablespace-task-manager-backend","version":"1.0.0","private":true,"scripts":{"start":"node dist/main.js","start:dev":"nest start --watch","build":"nest build"},"dependencies":{"@nestjs/common":"^11.0.0","@nestjs/config":"^4.0.2","@nestjs/core":"^11.0.0","@nestjs/jwt":"^11.0.0","@nestjs/mongoose":"^11.0.0","@nestjs/platform-express":"^11.0.0","bcryptjs":"^3.0.2","class-transformer":"^0.5.1","class-validator":"^0.14.2","mongoose":"^8.18.0","reflect-metadata":"^0.2.2","rxjs":"^7.8.2"},"devDependencies":{"@nestjs/cli":"^11.0.0","@nestjs/schematics":"^11.0.0","@nestjs/testing":"^11.0.0","@types/node":"^22.15.0","typescript":"^5.8.3"}}
+  "name":"ablespace-task-manager-backend",
+  "version":"1.0.0",
+  "private":true,
+  "scripts":{
+    "start":"node dist/main.js",
+    "start:prod":"node dist/main.js",
+    "start:dev":"nest start --watch",
+    "build":"nest build"
+  },
+  "dependencies":{
+    "@nestjs/common":"^11.0.0",
+    "@nestjs/config":"^4.0.2",
+    "@nestjs/core":"^11.0.0",
+    "@nestjs/jwt":"^11.0.0",
+    "@nestjs/mongoose":"^11.0.0",
+    "@nestjs/platform-express":"^11.0.0",
+    "bcryptjs":"^3.0.2",
+    "class-transformer":"^0.5.1",
+    "class-validator":"^0.14.2",
+    "mongoose":"^8.18.0",
+    "reflect-metadata":"^0.2.2",
+    "rxjs":"^7.8.2"
+  },
+  "devDependencies":{
+    "@nestjs/cli":"^11.0.0",
+    "@nestjs/schematics":"^11.0.0",
+    "@nestjs/testing":"^11.0.0",
+    "@types/node":"^22.15.0",
+    "typescript":"^5.8.3"
+  }
+}
