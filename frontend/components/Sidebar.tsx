@@ -1,2 +1,94 @@
-'use client'; import Link from 'next/link'; import {CheckSquare,FolderKanban,LayoutDashboard,Settings,Sun,Moon,LogOut,Plus} from 'lucide-react'; import {useApp} from './Providers'; import {useRouter} from 'next/navigation';
-export default function Sidebar(){const{user,theme,toggleTheme,setUser}=useApp();const r=useRouter();const logout=()=>{localStorage.removeItem('token');setUser(null);r.push('/login')};return <aside className="hidden md:flex w-64 shrink-0 border-r p-4 flex-col" style={{borderColor:'var(--border)',background:'var(--panel)'}}><div className="flex items-center gap-2 px-2 py-3 mb-5"><div className="w-9 h-9 rounded-xl flex items-center justify-center text-white font-bold" style={{background:'var(--accent)'}}>A</div><div><div className="font-bold">AbleSpace</div><div className="text-xs muted">Task Manager</div></div></div><nav className="space-y-1"><Link className="flex items-center gap-3 p-2.5 rounded-lg hover:bg-black/5" href="/"><LayoutDashboard size={18}/>Overview</Link><Link className="flex items-center gap-3 p-2.5 rounded-lg hover:bg-black/5" href="/tasks"><CheckSquare size={18}/>Tasks</Link><Link className="flex items-center gap-3 p-2.5 rounded-lg hover:bg-black/5" href="/projects"><FolderKanban size={18}/>Projects</Link></nav><div className="mt-auto space-y-1"><button className="w-full flex items-center gap-3 p-2.5 rounded-lg hover:bg-black/5" onClick={toggleTheme}>{theme==='light'?<Moon size={18}/>:<Sun size={18}/>} {theme==='light'?'Dark mode':'Light mode'}</button><Link className="flex items-center gap-3 p-2.5 rounded-lg hover:bg-black/5" href="/settings"><Settings size={18}/>Settings</Link><div className="border-t my-3" style={{borderColor:'var(--border)'}}/><div className="flex items-center gap-3 p-2"><div className="w-9 h-9 rounded-full flex items-center justify-center font-bold" style={{background:'color-mix(in srgb,var(--accent) 15%,transparent)',color:'var(--accent)'}}>{user?.name?.[0]||'U'}</div><div className="min-w-0 flex-1"><div className="font-medium truncate text-sm">{user?.name||'User'}</div><div className="text-xs muted truncate">{user?.email}</div></div><button onClick={logout} title="Log out"><LogOut size={17}/></button></div></div></aside>}
+'use client';
+import Link from 'next/link';
+import {
+  CheckSquare,
+  FolderKanban,
+  LayoutDashboard,
+  Settings,
+  Sun,
+  Moon,
+  LogOut,
+  Plus,
+} from 'lucide-react';
+import { useApp } from './Providers';
+import { useRouter } from 'next/navigation';
+export default function Sidebar() {
+  const { user, theme, toggleTheme, setUser } = useApp();
+  const r = useRouter();
+  const logout = () => {
+    localStorage.removeItem('token');
+    setUser(null);
+    r.push('/login');
+  };
+  return (
+    <aside
+      className="hidden md:flex w-64 shrink-0 border-r p-4 flex-col"
+      style={{ borderColor: 'var(--border)', background: 'var(--panel)' }}
+    >
+      <div className="flex items-center gap-2 px-2 py-3 mb-5">
+        <div
+          className="w-9 h-9 rounded-xl flex items-center justify-center text-white font-bold"
+          style={{ background: 'var(--accent)' }}
+        >
+          A
+        </div>
+        <div>
+          <div className="font-bold">AbleSpace</div>
+          <div className="text-xs muted">Task Manager</div>
+        </div>
+      </div>
+      <nav className="space-y-1">
+        <Link className="flex items-center gap-3 p-2.5 rounded-lg hover:bg-black/5" href="/">
+          <LayoutDashboard size={18} />
+          Overview
+        </Link>
+        <Link className="flex items-center gap-3 p-2.5 rounded-lg hover:bg-black/5" href="/tasks">
+          <CheckSquare size={18} />
+          Tasks
+        </Link>
+        <Link
+          className="flex items-center gap-3 p-2.5 rounded-lg hover:bg-black/5"
+          href="/projects"
+        >
+          <FolderKanban size={18} />
+          Projects
+        </Link>
+      </nav>
+      <div className="mt-auto space-y-1">
+        <button
+          className="w-full flex items-center gap-3 p-2.5 rounded-lg hover:bg-black/5"
+          onClick={toggleTheme}
+        >
+          {theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}{' '}
+          {theme === 'light' ? 'Dark mode' : 'Light mode'}
+        </button>
+        <Link
+          className="flex items-center gap-3 p-2.5 rounded-lg hover:bg-black/5"
+          href="/settings"
+        >
+          <Settings size={18} />
+          Settings
+        </Link>
+        <div className="border-t my-3" style={{ borderColor: 'var(--border)' }} />
+        <div className="flex items-center gap-3 p-2">
+          <div
+            className="w-9 h-9 rounded-full flex items-center justify-center font-bold"
+            style={{
+              background: 'color-mix(in srgb,var(--accent) 15%,transparent)',
+              color: 'var(--accent)',
+            }}
+          >
+            {user?.name?.[0] || 'U'}
+          </div>
+          <div className="min-w-0 flex-1">
+            <div className="font-medium truncate text-sm">{user?.name || 'User'}</div>
+            <div className="text-xs muted truncate">{user?.email}</div>
+          </div>
+          <button onClick={logout} title="Log out">
+            <LogOut size={17} />
+          </button>
+        </div>
+      </div>
+    </aside>
+  );
+}

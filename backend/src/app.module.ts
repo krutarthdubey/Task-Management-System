@@ -14,7 +14,11 @@ import { CommentsModule } from './comments/comments.module';
       inject: [ConfigService],
       useFactory: (config: ConfigService) => ({ uri: config.get<string>('MONGODB_URI') }),
     }),
-    AuthModule, UsersModule, TasksModule, ProjectsModule, CommentsModule,
+    AuthModule,
+    UsersModule,
+    TasksModule,
+    ProjectsModule,
+    CommentsModule,
   ],
 })
 export class AppModule {}

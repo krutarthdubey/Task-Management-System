@@ -1,1 +1,24 @@
-import{Injectable,NotFoundException}from'@nestjs/common';import{InjectModel}from'@nestjs/mongoose';import{Model}from'mongoose';import{Project,ProjectDocument}from'./project.schema';@Injectable()export class ProjectsService{constructor(@InjectModel(Project.name)private p:Model<ProjectDocument>){}all(o:string){return this.p.find({owner:o}).sort({createdAt:-1})}create(o:string,d:any){return this.p.create({...d,owner:o})}async update(id:string,o:string,d:any){const p=await this.p.findOneAndUpdate({_id:id,owner:o},{$set:d},{new:true});if(!p)throw new NotFoundException('Project not found');return p}async remove(id:string,o:string){const r=await this.p.deleteOne({_id:id,owner:o});if(!r.deletedCount)throw new NotFoundException('Project not found');return{ok:true}}}
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { Project, ProjectDocument } from './project.schema';
+@Injectable()
+export class ProjectsService {
+  constructor(@InjectModel(Project.name) private p: Model<ProjectDocument>) {}
+  all(o: string) {
+    return this.p.find({ owner: o }).sort({ createdAt: -1 });
+  }
+  create(o: string, d: any) {
+    return this.p.create({ ...d, owner: o });
+  }
+  async update(id: string, o: string, d: any) {
+    const p = await this.p.findOneAndUpdate({ _id: id, owner: o }, { $set: d }, { new: true });
+    if (!p) throw new NotFoundException('Project not found');
+    return p;
+  }
+  async remove(id: string, o: string) {
+    const r = await this.p.deleteOne({ _id: id, owner: o });
+    if (!r.deletedCount) throw new NotFoundException('Project not found');
+    return { ok: true };
+  }
+}

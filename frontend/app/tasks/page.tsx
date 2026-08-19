@@ -1,2 +1,65 @@
-'use client';import{useEffect,useState}from'react';import{Search,LayoutGrid,List}from'lucide-react';import AppShell from'../../components/AppShell';import TaskCard from'../../components/TaskCard';import{api}from'../../lib/api';
-export default function Tasks(){const[tasks,setTasks]=useState<any[]>([]);const[q,setQ]=useState('');const[st,setSt]=useState('all');const[pri,setPri]=useState('all');const[view,setView]=useState('list');const load=()=>api(`/tasks?q=${encodeURIComponent(q)}&status=${st}&priority=${pri}`).then(setTasks).catch(()=>{});useEffect(()=>{load()},[q,st,pri]);return <AppShell title="Tasks"><div className="space-y-5"><div className="flex flex-col lg:flex-row gap-3"><div className="relative flex-1"><Search size={17} className="absolute left-3 top-3 muted"/><input className="input pl-9" placeholder="Search tasks..." value={q} onChange={e=>setQ(e.target.value)}/></div><select className="input lg:w-40" value={st} onChange={e=>setSt(e.target.value)}><option value="all">All statuses</option><option value="todo">To do</option><option value="in-progress">In progress</option><option value="done">Done</option></select><select className="input lg:w-40" value={pri} onChange={e=>setPri(e.target.value)}><option value="all">All priorities</option><option value="low">Low</option><option value="medium">Medium</option><option value="high">High</option></select><div className="flex border rounded-lg p-1" style={{borderColor:'var(--border)'}}><button className="p-2" onClick={()=>setView('list')}><List size={17}/></button><button className="p-2" onClick={()=>setView('grid')}><LayoutGrid size={17}/></button></div></div><div className={view==='grid'?'grid md:grid-cols-2 xl:grid-cols-3 gap-4':'space-y-3'}>{tasks.map(t=><TaskCard key={t._id} task={t} onChange={load}/>)}{!tasks.length&&<div className="panel p-12 text-center muted">No tasks match your filters.</div>}</div></div></AppShell>}
+'use client';
+import { useEffect, useState } from 'react';
+import { Search, LayoutGrid, List } from 'lucide-react';
+import AppShell from '../../components/AppShell';
+import TaskCard from '../../components/TaskCard';
+import { api } from '../../lib/api';
+export default function Tasks() {
+  const [tasks, setTasks] = useState<any[]>([]);
+  const [q, setQ] = useState('');
+  const [st, setSt] = useState('all');
+  const [pri, setPri] = useState('all');
+  const [view, setView] = useState('list');
+  const load = () =>
+    api(`/tasks?q=${encodeURIComponent(q)}&status=${st}&priority=${pri}`)
+      .then(setTasks)
+      .catch(() => {});
+  useEffect(() => {
+    load();
+  }, [q, st, pri]);
+  return (
+    <AppShell title="Tasks">
+      <div className="space-y-5">
+        <div className="flex flex-col lg:flex-row gap-3">
+          <div className="relative flex-1">
+            <Search size={17} className="absolute left-3 top-3 muted" />
+            <input
+              className="input pl-9"
+              placeholder="Search tasks..."
+              value={q}
+              onChange={(e) => setQ(e.target.value)}
+            />
+          </div>
+          <select className="input lg:w-40" value={st} onChange={(e) => setSt(e.target.value)}>
+            <option value="all">All statuses</option>
+            <option value="todo">To do</option>
+            <option value="in-progress">In progress</option>
+            <option value="done">Done</option>
+          </select>
+          <select className="input lg:w-40" value={pri} onChange={(e) => setPri(e.target.value)}>
+            <option value="all">All priorities</option>
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+          </select>
+          <div className="flex border rounded-lg p-1" style={{ borderColor: 'var(--border)' }}>
+            <button className="p-2" onClick={() => setView('list')}>
+              <List size={17} />
+            </button>
+            <button className="p-2" onClick={() => setView('grid')}>
+              <LayoutGrid size={17} />
+            </button>
+          </div>
+        </div>
+        <div className={view === 'grid' ? 'grid md:grid-cols-2 xl:grid-cols-3 gap-4' : 'space-y-3'}>
+          {tasks.map((t) => (
+            <TaskCard key={t._id} task={t} onChange={load} />
+          ))}
+          {!tasks.length && (
+            <div className="panel p-12 text-center muted">No tasks match your filters.</div>
+          )}
+        </div>
+      </div>
+    </AppShell>
+  );
+}

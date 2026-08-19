@@ -1,1 +1,21 @@
-import{Body,Controller,Delete,Get,Param,Patch,Post,UseGuards}from'@nestjs/common';import{AuthGuard}from'../common/auth.guard';import{CurrentUser}from'../common/auth.decorator';import{ProjectsService}from'./projects.service';@Controller('projects')@UseGuards(AuthGuard)export class ProjectsController{constructor(private s:ProjectsService){}@Get()all(@CurrentUser()u:any){return this.s.all(u.sub)}@Post()create(@CurrentUser()u:any,@Body()d:any){return this.s.create(u.sub,d)}@Patch(':id')update(@CurrentUser()u:any,@Param('id')id:string,@Body()d:any){return this.s.update(id,u.sub,d)}@Delete(':id')remove(@CurrentUser()u:any,@Param('id')id:string){return this.s.remove(id,u.sub)}}
+import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
+import { AuthGuard } from '../common/auth.guard';
+import { CurrentUser } from '../common/auth.decorator';
+import { ProjectsService } from './projects.service';
+@Controller('projects')
+@UseGuards(AuthGuard)
+export class ProjectsController {
+  constructor(private s: ProjectsService) {}
+  @Get() all(@CurrentUser() u: any) {
+    return this.s.all(u.sub);
+  }
+  @Post() create(@CurrentUser() u: any, @Body() d: any) {
+    return this.s.create(u.sub, d);
+  }
+  @Patch(':id') update(@CurrentUser() u: any, @Param('id') id: string, @Body() d: any) {
+    return this.s.update(id, u.sub, d);
+  }
+  @Delete(':id') remove(@CurrentUser() u: any, @Param('id') id: string) {
+    return this.s.remove(id, u.sub);
+  }
+}

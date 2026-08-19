@@ -1,2 +1,89 @@
-'use client'; import {useEffect,useState} from 'react'; import {api} from '../lib/api'; import AppShell from '../components/AppShell'; import {CheckCircle2,Clock3,AlertTriangle,ListTodo,ArrowRight} from 'lucide-react'; import Link from 'next/link';
-export default function Home(){const[s,setS]=useState<any>(null);const[tasks,setTasks]=useState<any[]>([]);const load=async()=>{const[a,b]=await Promise.all([api('/tasks/stats'),api('/tasks?status=all')]);setS(a);setTasks(b.slice(0,5))};useEffect(()=>{load().catch(()=>{})},[]);return <AppShell title="Overview"><div className="space-y-6"><div><h2 className="text-2xl font-bold">Good to see you.</h2><p className="muted mt-1">Here’s what’s happening with your workspace.</p></div><div className="grid grid-cols-2 lg:grid-cols-4 gap-4">{[['Total tasks',s?.total||0,ListTodo],['To do',s?.todo||0,Clock3],['In progress',s?.inProgress||0,Clock3],['Completed',s?.done||0,CheckCircle2]].map(([a,b,I]:any)=><div className="panel p-5" key={a as string}><I size={20} style={{color:'var(--accent)'}}/><div className="text-2xl font-bold mt-4">{b}</div><div className="muted text-sm">{a}</div></div>)}</div><div className="grid lg:grid-cols-[1fr_320px] gap-6"><section className="panel p-5"><div className="flex justify-between items-center mb-4"><div><h3 className="font-bold">Recent tasks</h3><p className="muted text-sm">Your latest work items</p></div><Link href="/tasks" className="text-sm font-semibold flex gap-1 items-center" style={{color:'var(--accent)'}}>View all <ArrowRight size={15}/></Link></div><div className="space-y-3">{tasks.length?tasks.map(t=><div key={t._id} className="border-b pb-3 last:border-0" style={{borderColor:'var(--border)'}}><div className="font-medium">{t.title}</div><div className="text-xs muted mt-1">{t.status.replace('-',' ')} · {t.priority}</div></div>):<div className="py-8 text-center muted">No tasks yet. Create your first one.</div>}</div></section><section className="panel p-5"><div className="flex items-center gap-2"><AlertTriangle size={19} style={{color:'var(--accent)'}}/><h3 className="font-bold">Focus</h3></div><p className="muted text-sm mt-2">Keep your task list small and actionable. Use projects to group related work.</p><Link className="btn btn-primary w-full mt-5" href="/tasks/new">Create a task</Link></section></div></div></AppShell>}
+'use client';
+import { useEffect, useState } from 'react';
+import { api } from '../lib/api';
+import AppShell from '../components/AppShell';
+import { CheckCircle2, Clock3, AlertTriangle, ListTodo, ArrowRight } from 'lucide-react';
+import Link from 'next/link';
+export default function Home() {
+  const [s, setS] = useState<any>(null);
+  const [tasks, setTasks] = useState<any[]>([]);
+  const load = async () => {
+    const [a, b] = await Promise.all([api('/tasks/stats'), api('/tasks?status=all')]);
+    setS(a);
+    setTasks(b.slice(0, 5));
+  };
+  useEffect(() => {
+    load().catch(() => {});
+  }, []);
+  return (
+    <AppShell title="Overview">
+      <div className="space-y-6">
+        <div>
+          <h2 className="text-2xl font-bold">Good to see you.</h2>
+          <p className="muted mt-1">Here’s what’s happening with your workspace.</p>
+        </div>
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          {[
+            ['Total tasks', s?.total || 0, ListTodo],
+            ['To do', s?.todo || 0, Clock3],
+            ['In progress', s?.inProgress || 0, Clock3],
+            ['Completed', s?.done || 0, CheckCircle2],
+          ].map(([a, b, I]: any) => (
+            <div className="panel p-5" key={a as string}>
+              <I size={20} style={{ color: 'var(--accent)' }} />
+              <div className="text-2xl font-bold mt-4">{b}</div>
+              <div className="muted text-sm">{a}</div>
+            </div>
+          ))}
+        </div>
+        <div className="grid lg:grid-cols-[1fr_320px] gap-6">
+          <section className="panel p-5">
+            <div className="flex justify-between items-center mb-4">
+              <div>
+                <h3 className="font-bold">Recent tasks</h3>
+                <p className="muted text-sm">Your latest work items</p>
+              </div>
+              <Link
+                href="/tasks"
+                className="text-sm font-semibold flex gap-1 items-center"
+                style={{ color: 'var(--accent)' }}
+              >
+                View all <ArrowRight size={15} />
+              </Link>
+            </div>
+            <div className="space-y-3">
+              {tasks.length ? (
+                tasks.map((t) => (
+                  <div
+                    key={t._id}
+                    className="border-b pb-3 last:border-0"
+                    style={{ borderColor: 'var(--border)' }}
+                  >
+                    <div className="font-medium">{t.title}</div>
+                    <div className="text-xs muted mt-1">
+                      {t.status.replace('-', ' ')} · {t.priority}
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <div className="py-8 text-center muted">No tasks yet. Create your first one.</div>
+              )}
+            </div>
+          </section>
+          <section className="panel p-5">
+            <div className="flex items-center gap-2">
+              <AlertTriangle size={19} style={{ color: 'var(--accent)' }} />
+              <h3 className="font-bold">Focus</h3>
+            </div>
+            <p className="muted text-sm mt-2">
+              Keep your task list small and actionable. Use projects to group related work.
+            </p>
+            <Link className="btn btn-primary w-full mt-5" href="/tasks/new">
+              Create a task
+            </Link>
+          </section>
+        </div>
+      </div>
+    </AppShell>
+  );
+}

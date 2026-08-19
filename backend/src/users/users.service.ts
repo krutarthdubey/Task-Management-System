@@ -1,2 +1,22 @@
-import { Injectable, NotFoundException } from '@nestjs/common'; import { InjectModel } from '@nestjs/mongoose'; import { Model } from 'mongoose'; import { User,UserDocument } from './user.schema';
-@Injectable() export class UsersService { constructor(@InjectModel(User.name) private users:Model<UserDocument>){} async find(id:string){const u=await this.users.findById(id).select('-password'); if(!u)throw new NotFoundException('User not found'); return u;} async update(id:string,d:any){return this.users.findByIdAndUpdate(id,{$set:{name:d.name,bio:d.bio,avatar:d.avatar}}, {new:true}).select('-password');} }
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { User, UserDocument } from './user.schema';
+@Injectable()
+export class UsersService {
+  constructor(@InjectModel(User.name) private users: Model<UserDocument>) {}
+  async find(id: string) {
+    const u = await this.users.findById(id).select('-password');
+    if (!u) throw new NotFoundException('User not found');
+    return u;
+  }
+  async update(id: string, d: any) {
+    return this.users
+      .findByIdAndUpdate(
+        id,
+        { $set: { name: d.name, bio: d.bio, avatar: d.avatar } },
+        { new: true },
+      )
+      .select('-password');
+  }
+}

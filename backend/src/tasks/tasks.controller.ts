@@ -1,2 +1,42 @@
-import{Body,Controller,Delete,Get,Param,Patch,Post,Query,UseGuards}from'@nestjs/common';import{AuthGuard}from'../common/auth.guard';import{CurrentUser}from'../common/auth.decorator';import{TasksService}from'./tasks.service';
-@Controller('tasks')@UseGuards(AuthGuard)export class TasksController{constructor(private s:TasksService){}@Get()all(@CurrentUser()u:any,@Query('q')q?:string,@Query('status')st?:string,@Query('priority')p?:string){return this.s.all(u.sub,q,st,p)}@Get('stats')stats(@CurrentUser()u:any){return this.s.stats(u.sub)}@Get(':id')one(@CurrentUser()u:any,@Param('id')id:string){return this.s.one(id,u.sub)}@Post()create(@CurrentUser()u:any,@Body()d:any){return this.s.create(u.sub,d)}@Patch(':id')update(@CurrentUser()u:any,@Param('id')id:string,@Body()d:any){return this.s.update(id,u.sub,d)}@Delete(':id')remove(@CurrentUser()u:any,@Param('id')id:string){return this.s.remove(id,u.sub)}}
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
+import { AuthGuard } from '../common/auth.guard';
+import { CurrentUser } from '../common/auth.decorator';
+import { TasksService } from './tasks.service';
+@Controller('tasks')
+@UseGuards(AuthGuard)
+export class TasksController {
+  constructor(private s: TasksService) {}
+  @Get() all(
+    @CurrentUser() u: any,
+    @Query('q') q?: string,
+    @Query('status') st?: string,
+    @Query('priority') p?: string,
+  ) {
+    return this.s.all(u.sub, q, st, p);
+  }
+  @Get('stats') stats(@CurrentUser() u: any) {
+    return this.s.stats(u.sub);
+  }
+  @Get(':id') one(@CurrentUser() u: any, @Param('id') id: string) {
+    return this.s.one(id, u.sub);
+  }
+  @Post() create(@CurrentUser() u: any, @Body() d: any) {
+    return this.s.create(u.sub, d);
+  }
+  @Patch(':id') update(@CurrentUser() u: any, @Param('id') id: string, @Body() d: any) {
+    return this.s.update(id, u.sub, d);
+  }
+  @Delete(':id') remove(@CurrentUser() u: any, @Param('id') id: string) {
+    return this.s.remove(id, u.sub);
+  }
+}

@@ -7,7 +7,12 @@ import AppShell from '../../../components/AppShell';
 export default function NewTask() {
   const r = useRouter();
   const [f, setF] = useState<any>({
-    title: '', description: '', status: 'todo', priority: 'medium', dueDate: '', tags: ''
+    title: '',
+    description: '',
+    status: 'todo',
+    priority: 'medium',
+    dueDate: '',
+    tags: '',
   });
   const change = (k: string, v: any) => setF((x: any) => ({ ...x, [k]: v }));
   const submit = async (e: FormEvent) => {
@@ -16,9 +21,12 @@ export default function NewTask() {
       method: 'POST',
       body: JSON.stringify({
         ...f,
-        tags: f.tags.split(',').map((x: string) => x.trim()).filter(Boolean),
-        dueDate: f.dueDate || undefined
-      })
+        tags: f.tags
+          .split(',')
+          .map((x: string) => x.trim())
+          .filter(Boolean),
+        dueDate: f.dueDate || undefined,
+      }),
     });
     r.push('/tasks');
   };
@@ -26,16 +34,75 @@ export default function NewTask() {
     <AppShell title="New task">
       <form onSubmit={submit} className="max-w-3xl space-y-5">
         <div className="panel p-6 space-y-4">
-          <div><label className="text-sm font-semibold">Title</label><input autoFocus className="input mt-2" value={f.title} onChange={e => change('title', e.target.value)} required /></div>
-          <div><label className="text-sm font-semibold">Description</label><textarea className="input mt-2 min-h-32" value={f.description} onChange={e => change('description', e.target.value)} /></div>
+          <div>
+            <label className="text-sm font-semibold">Title</label>
+            <input
+              autoFocus
+              className="input mt-2"
+              value={f.title}
+              onChange={(e) => change('title', e.target.value)}
+              required
+            />
+          </div>
+          <div>
+            <label className="text-sm font-semibold">Description</label>
+            <textarea
+              className="input mt-2 min-h-32"
+              value={f.description}
+              onChange={(e) => change('description', e.target.value)}
+            />
+          </div>
           <div className="grid md:grid-cols-2 gap-4">
-            <div><label className="text-sm font-semibold">Status</label><select className="input mt-2" value={f.status} onChange={e => change('status', e.target.value)}><option value="todo">To do</option><option value="in-progress">In progress</option><option value="done">Done</option></select></div>
-            <div><label className="text-sm font-semibold">Priority</label><select className="input mt-2" value={f.priority} onChange={e => change('priority', e.target.value)}><option value="low">Low</option><option value="medium">Medium</option><option value="high">High</option></select></div>
-            <div><label className="text-sm font-semibold">Due date</label><input className="input mt-2" type="date" value={f.dueDate} onChange={e => change('dueDate', e.target.value)} /></div>
-            <div><label className="text-sm font-semibold">Tags</label><input className="input mt-2" placeholder="design, urgent" value={f.tags} onChange={e => change('tags', e.target.value)} /></div>
+            <div>
+              <label className="text-sm font-semibold">Status</label>
+              <select
+                className="input mt-2"
+                value={f.status}
+                onChange={(e) => change('status', e.target.value)}
+              >
+                <option value="todo">To do</option>
+                <option value="in-progress">In progress</option>
+                <option value="done">Done</option>
+              </select>
+            </div>
+            <div>
+              <label className="text-sm font-semibold">Priority</label>
+              <select
+                className="input mt-2"
+                value={f.priority}
+                onChange={(e) => change('priority', e.target.value)}
+              >
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
+              </select>
+            </div>
+            <div>
+              <label className="text-sm font-semibold">Due date</label>
+              <input
+                className="input mt-2"
+                type="date"
+                value={f.dueDate}
+                onChange={(e) => change('dueDate', e.target.value)}
+              />
+            </div>
+            <div>
+              <label className="text-sm font-semibold">Tags</label>
+              <input
+                className="input mt-2"
+                placeholder="design, urgent"
+                value={f.tags}
+                onChange={(e) => change('tags', e.target.value)}
+              />
+            </div>
           </div>
         </div>
-        <div className="flex gap-2"><button type="button" className="btn" onClick={() => r.back()}>Cancel</button><button className="btn btn-primary">Create task</button></div>
+        <div className="flex gap-2">
+          <button type="button" className="btn" onClick={() => r.back()}>
+            Cancel
+          </button>
+          <button className="btn btn-primary">Create task</button>
+        </div>
       </form>
     </AppShell>
   );
